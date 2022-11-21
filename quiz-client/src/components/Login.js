@@ -1,9 +1,38 @@
 import { Button, Card, CardContent, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import useForm from "../hooks/UseForm";
 import Center from "./Center";
 
+const getFreshModel = () => ({
+    name: '',
+    email: ''
+})
+
 export default function Longin() {
+
+    const {
+        values,
+        setValues,
+        errors,
+        setErrors,
+        handleInputChange
+    } = useForm(getFreshModel);
+
+    const login = e => {
+        if(validate()){
+            console.log(values)
+        }
+    } 
+
+    const validate = () => {
+        let temp = {}
+        temp.email = (/\S+@\S+\.\S+/).test(values.email) ? "" : "Email is not valid."
+        temp.name = values.name != "" ? "" : "This field is required."
+        setErrors(temp)
+        return Object.values(temp).every(x => x == "")
+    }
+
     return (    
         <Center>
             <Card sx={{ width: 400 }}>
@@ -15,16 +44,22 @@ export default function Longin() {
                             width:'90%'
                         }
                     }}>
-                        <form noValidate autoComplete="off">
+                        <form noValidate autoComplete="off" onSubmit={login}>
                             <TextField
                                 label='Email'
                                 name="email"
-                                variant="outlined" 
+                                variant="outlined"
+                                value={values.email}
+                                onChange={handleInputChange} 
+                                {...(errors.email && { error: true, helperText: errors.email })}
                             />
                             <TextField
                                 label='Name'
                                 name="name"
                                 variant="outlined" 
+                                value={values.name}
+                                onChange={handleInputChange}
+                                {...(errors.name && { error: true, helperText: errors.name })}
                             />
                             <Button
                                 type='submit'
