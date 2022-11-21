@@ -43,7 +43,7 @@ export default function Login() {
                     <Typography variant='h3' sx={{my:3}}>Quiz App</Typography>
                     <Box sx={{
                         '& .MuiTextField-root':{
-                            m:1, // ou margin:!
+                            m:1, // ou margin:1
                             width:'90%'
                         }
                     }}>
