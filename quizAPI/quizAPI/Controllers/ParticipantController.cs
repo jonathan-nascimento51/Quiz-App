@@ -11,11 +11,11 @@ namespace quizAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParticipantsController : ControllerBase
+    public class ParticipantController : ControllerBase
     {
         private readonly QuizDbContext _context;
 
-        public ParticipantsController(QuizDbContext context)
+        public ParticipantController(QuizDbContext context)
         {
             _context = context;
         }
