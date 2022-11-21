@@ -1,7 +1,8 @@
 import { Button, Card, CardContent, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import useForm from "../hooks/UseForm";
+import { createAPIEndpoint, ENDPOINTS } from "../api/Index";
+import UseForm from "../hooks/UseForm";
 import Center from "./Center";
 
 const getFreshModel = () => ({
@@ -9,7 +10,7 @@ const getFreshModel = () => ({
     email: ''
 })
 
-export default function Longin() {
+export default function Login() {
 
     const {
         values,
@@ -17,12 +18,14 @@ export default function Longin() {
         errors,
         setErrors,
         handleInputChange
-    } = useForm(getFreshModel);
+    } = UseForm(getFreshModel);
 
     const login = e => {
-        if(validate()){
-            console.log(values)
-        }
+        if(validate())
+            createAPIEndpoint(ENDPOINTS.participant)
+                .post(values)
+                .then(res => console.log(res))
+                .catch(error => console.log(error))
     } 
 
     const validate = () => {
