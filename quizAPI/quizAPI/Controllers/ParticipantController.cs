@@ -72,15 +72,24 @@ namespace quizAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Participants
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPost]
         public async Task<ActionResult<Participant>> PostParticipant(Participant participant)
         {
-            _context.Participants.Add(participant);
-            await _context.SaveChangesAsync();
+            var temp = _context.Participants
+                .Where(x => x.Name == participant.Name
+                && x.Email == participant.Email)
+                .FirstOrDefault();
 
-            return CreatedAtAction("GetParticipant", new { id = participant.ParticipantId }, participant);
+            if (temp == null)
+            {
+                _context.Participants.Add(participant);
+                await _context.SaveChangesAsync();
+            }
+            else
+                participant = temp;
+
+            return Ok(participant);
         }
 
         // DELETE: api/Participants/5
